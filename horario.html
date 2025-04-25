@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Realistic Sunflowers Rain</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to top right, #a8d08d, #f6c66e);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      flex-wrap: wrap;
+      gap: 40px;
+      flex-direction: column;
+      text-align: center;
+      font-family: 'Georgia', serif;
+    }
+
+    h1 {
+      font-size: 42px;
+      color: #fff;
+      font-weight: bold;
+      margin-top: 20px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .sunflower {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .petal {
+      position: absolute;
+      width: 30px;
+      height: 50px;
+      background: radial-gradient(circle, #ffd700 0%, #ffb300 100%);
+      border-radius: 50% 50% 0 0;
+      transform-origin: 50% 100%;
+      transform: translateY(-50px);
+    }
+
+    .center {
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, #4a2c09 0%, #1c1208 100%);
+      border-radius: 50%;
+      box-shadow: inset 0 0 15px #000;
+      z-index: 2;
+      position: relative;
+      top: 26px;
+    }
+
+    .stem {
+      position: absolute;
+      bottom: -80px;
+      left: 50%;
+      width: 15px;
+      height: 120px;
+      background-color: #3a5f0b;
+      transform: translateX(-50%);
+      border-radius: 10px;
+      z-index: 0;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-200px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(600px) rotate(120deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes moveDown {
+      0% {
+        transform: translateY(-100vh);
+      }
+      100% {
+        transform: translateY(100vh);
+      }
+    }
+
+    @keyframes appear {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .spotify-widget {
+      margin-top: 20px;
+      z-index: 1;
+    }
+
+    .card-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9998;
+      display: none;
+    }
+
+    .card {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: none;
+      z-index: 9999;
+      animation: fadeInCard 0.5s ease-out;
+    }
+
+    @keyframes fadeInCard {
+      0% {
+        opacity: 0;
+        transform: scale(0.9) translate(-50%, -50%);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translate(-50%, -50%);
+      }
+    }
+
+    .card h2 {
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 16px;
+      color: #333;
+      text-align: left;
+    }
+
+    .close-card {
+      display: block;
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #ff9900;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .close-card:hover {
+      background-color: #e88e00;
+    }
+
+    @media (max-width: 400px) {
+      .card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Haz clic en un girasol, mi Pocoyito hermoso 🌻</h1>
+  <div id="container"></div>
+
+  <div class="spotify-widget">
+    <iframe src="https://open.spotify.com/embed/track/1G9wM0DIuyxn0m0QeENIkl?si=sxR4X2axQ9GFIw_y5h9nFQ" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+  </div>
+
+  <!-- Fondo oscuro detrás de la carta -->
+  <div id="cardBackground" class="card-background" onclick="closeCard()"></div>
+
+  <!-- Carta desplegable -->
+  <div id="card" class="card">
+    <h2>¡Hola!</h2>
+    <p>Mi niña hermosa:<br><br>
+
+Muchas veces me detengo a pensar… ¿qué tienen esos ojitos tuyos? Son tan hermosos que ni la escala de Glasgow puede medir lo loquito que me pone tu belleza. Te has convertido en el miocardio de mi existencia, estás presente en cada una de mis células, en cada sinapsis, en cada intercambio gaseoso que me mantiene vivo. <br><br>
+Llegaste a mi vida como un impulso nervioso al corazón: directo, inevitable, vital. Aunque aún no he tenido el privilegio de verte en persona, ya habitas cada milímetro de mí, desde mis neuronas espejo hasta mis zonas de Broca y Wernicke, porque pensar en ti y hablar de ti es natural para mí. <br><br>
+Quiero estar contigo hoy, mañana, cada día de mi historia clínica. Quiero recetarte dosis infinitas de amor cada microsegundo, abrazarte como un vendaje que alivia, y amarte con la fuerza de un torniquete que no deja ir. <br><br>
+Eres una mujer maravillosa. Si me das tiempo, te pediré que seas mi novia como se lo merece la reina de mi corazón. Aun en la distancia, iré a verte, aunque sea por un ratito. Y en ese ratito, podría prometerte todo. <br><br>
+¿Te digo algo un poco loco mi amor? Me encantaría que fueras la madre de nuestros hijo, sí, lo sé, suena pronto, pero cuando el amor es tan profundo como un hematocrito bien alto, es imposible no imaginar. <br><br>
+Estás en cada órgano, en cada espacio extracelular, en cada inspiración que respiro. Te amo con toda la fuerza de mi sístole, mi insulina, mi dopamina, mi vida entera. <br><br>
+Si me aceptas como tu doctor, prometo hacer guardias eternas a tu lado, cuidarte con amor y bailar contigo en los pasillos del tiempo, diciéndonos “lo logramos, mi amor”. Y sobre todo nunca, jamás, darte de alta mi niña pechocha. <br><br>
+Con todo mi amor para mi anastomosis más hermosa que la vida me pudo dar,<br>
+La ama y la quiere su niño. 🌻</p>
+    <button class="close-card">Cerrar</button>
+  </div>
+
+  <script>
+    const sunflowerCount = 20;
+    const petalCount = 20;
+    const container = document.getElementById("container");
+    const card = document.getElementById("card");
+    const cardBg = document.getElementById("cardBackground");
+
+    function createSunflower(id) {
+      const sunflower = document.createElement("div");
+      sunflower.classList.add("sunflower");
+      sunflower.style.left = `${Math.random() * 100}vw`;
+
+      sunflower.onclick = function () {
+        card.style.display = 'block';
+        cardBg.style.display = 'block';
+      };
+
+      for (let i = 0; i < petalCount; i++) {
+        const petal = document.createElement("div");
+        petal.className = "petal";
+        petal.style.transform = `rotate(${(360 / petalCount) * i}deg) translateY(-50px)`;
+        sunflower.appendChild(petal);
+      }
+
+      const center = document.createElement("div");
+      center.className = "center";
+      sunflower.appendChild(center);
+
+      const stem = document.createElement("div");
+      stem.className = "stem";
+      sunflower.appendChild(stem);
+
+      container.appendChild(sunflower);
+      return sunflower;
+    }
+
+    function startFalling() {
+      let groupIndex = 0;
+      setInterval(() => {
+        for (let i = groupIndex * 5; i < (groupIndex + 1) * 5 && i < sunflowerCount; i++) {
+          const sunflower = document.querySelector(`#sunflower${i + 1}`);
+          sunflower.style.animation = `moveDown ${(Math.random() * 5) + 5}s linear infinite, fall ${(Math.random() * 5) + 5}s linear infinite, appear 1s forwards`;
+          sunflower.style.opacity = 1;
+        }
+        groupIndex = (groupIndex + 1) % 4;
+      }, 2000);
+    }
+
+    function closeCard() {
+      card.style.display = 'none';
+      cardBg.style.display = 'none';
+    }
+
+    document.querySelector(".close-card").addEventListener("click", closeCard);
+
+    for (let i = 0; i < sunflowerCount; i++) {
+      const sunflower = createSunflower(i);
+      sunflower.id = `sunflower${i + 1}`;
+    }
+
+    startFalling();
+  </script>
+</body>
+</html>
